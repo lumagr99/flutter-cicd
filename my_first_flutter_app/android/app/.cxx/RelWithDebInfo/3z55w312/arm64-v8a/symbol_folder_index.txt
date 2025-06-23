@@ -1,0 +1,1 @@
+C:\Users\lumag\AndroidStudioProjects\my_first_flutter_app\build\app\intermediates\cxx\RelWithDebInfo\3z55w312\obj\arm64-v8a

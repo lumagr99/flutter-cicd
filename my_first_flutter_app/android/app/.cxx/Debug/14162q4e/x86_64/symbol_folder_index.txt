@@ -1,0 +1,1 @@
+C:\Users\lumag\AndroidStudioProjects\my_first_flutter_app\build\app\intermediates\cxx\Debug\14162q4e\obj\x86_64

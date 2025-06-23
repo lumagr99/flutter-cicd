@@ -1,0 +1,88 @@
+# Flutter/Dart/Pub
+.dart_tool/
+.packages
+.pub-cache/
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+.flutter-versions
+.metadata
+
+# Android
+android/.gradle/
+android/captures/
+android/app/build/
+android/local.properties
+android/.idea/
+android/.cxx/
+
+# iOS
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Flutter/Generated.xcconfig
+ios/Flutter/app.flx
+ios/Flutter/app.zip
+ios/Flutter/engine/
+ios/Pods/
+ios/.symlinks/
+ios/Runner.xcworkspace/
+ios/DerivedData/
+ios/.dart_tool/
+ios/.idea/
+
+# macOS
+macos/Flutter/GeneratedPluginRegistrant.swift
+macos/Pods/
+macos/Runner.xcworkspace/
+macos/build/
+macos/.DS_Store
+
+# Windows
+windows/build/
+
+# Linux
+linux/build/
+
+# Web
+web/build/
+
+# IDEs – Android Studio/IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code (falls parallel verwendet)
+.vscode/
+
+# Build artefacts
+*.lock
+*.log
+
+# Coverage
+coverage/
+
+# Temporäre Dateien
+*.tmp
+*.bak
+
+# Umgebungsdateien
+.env
+
+# System
+.DS_Store
+Thumbs.db
+# Weitere generierte Artefakte (Flutter, CMake, NDK, Ninja)
+**/CMakeFiles/
+**/CMakeCache.txt
+**/cmake_install.cmake
+**/build.ninja
+**/rules.ninja
+**/TargetDirectories.txt
+**/outputs.json
+**/*.dill
+**/.filecache
+**/*.bin
+**/*.stamp
+**/*.o
+**/*.json

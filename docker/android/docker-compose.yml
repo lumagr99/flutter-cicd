@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  galaxy-s9-android-13-container:
+    image: budtmo/docker-android:emulator_13.0
+    container_name: galaxy-s9-android-13-container
+    ports:
+      - "6081:6080"
+    environment:
+      EMULATOR_DEVICE: "Samsung Galaxy S9"
+      WEB_VNC: "true"
+    devices:
+      - /dev/kvm
+    restart: unless-stopped
+    mem_limit: 6g
+    cpus: 6.0
+    networks:
+      - shared_adb
+
+  galaxy-nexus7-android-11-container:
+    image: budtmo/docker-android:emulator_11.0
+    container_name: galaxy-nexus7-android-11-container
+    ports:
+      - "6082:6080"
+    environment:
+      EMULATOR_DEVICE: "Nexus 7"
+      WEB_VNC: "true"
+    devices:
+      - /dev/kvm
+    restart: unless-stopped
+    mem_limit: 8g
+    cpus: 8.0
+    networks:
+      - shared_adb
+
+networks:
+  shared_adb:
+    external: true

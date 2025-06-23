@@ -1,0 +1,70 @@
+version: '3.8'
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    container_name: gitlab
+    hostname: 'gitlab.example.com'  # Setze dies auf deine eigene Domain oder IP
+    restart: always
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://localhost'  # Ändere dies auf die echte Domain oder IP
+        gitlab_rails['gitlab_shell_ssh_port'] = 2224
+    ports:
+      - '80:80'    # HTTP
+      - '443:443'  # HTTPS
+      - '2225:22'  # SSH
+    volumes:
+      - ./data/gitlab/gitlab-config:/etc/gitlab
+      - ./data/gitlab/gitlab-logs:/var/log/gitlab
+      - ./data/gitlab/gitlab-data:/var/opt/gitlab
+
+  jenkins:
+    image: jenkins/jenkins:2.479.2-lts-jdk17
+    container_name: jenkins
+    user: root
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/jenkins:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      JAVA_OPTS: "-Djenkins.install.runSetupWizard=false"
+      JENKINS_OPTS: "--prefix=/jenkins"
+      TZ: Berlin/Europe
+    networks:
+      - shared_cicd
+
+  flutter-agent:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: flutter-agent:latest
+    container_name: flutter-agent
+    restart: unless-stopped
+    environment:
+      - JENKINS_URL=http://jenkins:8080/jenkins/
+      - JENKINS_SECRET=db457b16cda4f1a969e9fdfe5e818bfcc1a89b7489a1ee1cb9d9897efe964245
+      - JENKINS_AGENT_NAME=flutter-agent
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - shared_cicd
+
+  flutter-agent-b:
+    image: flutter-agent:latest
+    container_name: flutter-agent-2
+    restart: unless-stopped
+    environment:
+      - JENKINS_URL=http://jenkins:8080/jenkins/
+      - JENKINS_SECRET=243d2dd5b9d37f6cdc6183f0216c51f6b71ff6606d78d712d892b9466d5c1aa4
+      - JENKINS_AGENT_NAME=flutter-agent-2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - shared_cicd
+
+networks:
+  shared_cicd:
+    external: true
