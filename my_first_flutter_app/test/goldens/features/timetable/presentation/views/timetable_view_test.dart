@@ -54,7 +54,7 @@ void main() {
     );
   }
 
-  testGoldens('TimetableView – Loaded with grouped entries (multi-device)', (tester) async {
+  testGoldens('TimetableView - Loaded with grouped entries (multi-device)', (tester) async {
     final now = DateTime(2025, 5, 26, 9);
 
     final entries = [
@@ -85,7 +85,7 @@ void main() {
     );
   });
 
-  testGoldens('TimetableView – Fehlerzustand bei ungültigen Login-Daten (multi-device)', (tester) async {
+  testGoldens('TimetableView - Fehlerzustand bei ungültigen Login-Daten (multi-device)', (tester) async {
     final widget = await buildTestWidget(
       entries: [],
       withCredentials: true,

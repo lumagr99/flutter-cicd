@@ -24,6 +24,7 @@ void main() {
 
   group('CampusCubit', () {
     test('select() should emit the selected campus', () {
+      // ARRANGE
       const campus = Campus(
         name: 'Test Campus',
         latitude: 50.0,
@@ -31,12 +32,15 @@ void main() {
         menuUrl: 'https://example.com/menu',
       );
 
+      // ACT
       campusCubit.select(campus);
 
+      // ASSERT
       expect(campusCubit.state, campus);
     });
 
     test('autoSelectNearestCampus() should emit the nearest campus', () async {
+      // ARRANGE
       final position = Position(
         latitude: 0.0,
         longitude: 0.0,
@@ -52,8 +56,10 @@ void main() {
       );
       mockGeolocator.mockPosition = position;
 
+      // ACT
       await campusCubit.autoSelectNearestCampus();
 
+      // ASSERT
       final expectedCampus = CampusData.campuses.reduce((a, b) {
         final da = _distance(position.latitude, position.longitude, a.latitude, a.longitude);
         final db = _distance(position.latitude, position.longitude, b.latitude, b.longitude);
@@ -64,8 +70,10 @@ void main() {
     });
 
     test('autoSelectNearestCampus() should throw if location services are disabled', () async {
+      // ARRANGE
       mockGeolocator.mockServiceEnabled = false;
 
+      // ACT & ASSERT
       expect(
             () async => await campusCubit.autoSelectNearestCampus(),
         throwsA(isA<Exception>()),
@@ -73,8 +81,10 @@ void main() {
     });
 
     test('autoSelectNearestCampus() should throw if permission is denied', () async {
+      // ARRANGE
       mockGeolocator.mockPermission = LocationPermission.denied;
 
+      // ACT & ASSERT
       expect(
             () async => await campusCubit.autoSelectNearestCampus(),
         throwsA(isA<Exception>()),
@@ -82,8 +92,10 @@ void main() {
     });
 
     test('autoSelectNearestCampus() should throw if permission is denied forever', () async {
+      // ARRANGE
       mockGeolocator.mockPermission = LocationPermission.deniedForever;
 
+      // ACT & ASSERT
       expect(
             () async => await campusCubit.autoSelectNearestCampus(),
         throwsA(isA<Exception>()),
@@ -92,15 +104,25 @@ void main() {
   });
 }
 
+
+/// Berechnet die Entfernung zwischen zwei GPS-Koordinaten in Kilometern
 double _distance(double lat1, double lon1, double lat2, double lon2) {
-  const R = 6371; // Erdradius in km
+  const R = 6371; // Erdradius in Kilometern
+
+  // Umrechnung der Differenzen in Bogenmaß
   final dLat = _deg2rad(lat2 - lat1);
   final dLon = _deg2rad(lon2 - lon1);
+
+  // Haversine-Formel
   final a = sin(dLat / 2) * sin(dLat / 2) +
       cos(_deg2rad(lat1)) * cos(_deg2rad(lat2)) *
           sin(dLon / 2) * sin(dLon / 2);
+
   final c = 2 * atan2(sqrt(a), sqrt(1 - a));
+
   return R * c;
 }
 
+/// Wandelt Grad in Bogenmaß um
 double _deg2rad(double deg) => deg * (pi / 180);
+

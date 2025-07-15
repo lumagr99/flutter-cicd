@@ -55,26 +55,25 @@ class DynamicMockGeolocator extends GeolocatorPlatform {
 }
 
 void main() {
-  // 1) Initialize the test binding
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setTestPrefix("e2e_100");
 
   // Run a test for each campus
   for (final campus in CampusData.campuses) {
     testWidgets('e2e_100: Auto-selection of ${campus.name}', (tester) async {
-      // 2) Set the mock location
+      // ARRANGE: Set the mock location
       await binding.convertFlutterSurfaceToImage();
       GeolocatorPlatform.instance = DynamicMockGeolocator(
         lat: campus.latitude,
         lon: campus.longitude,
       );
 
-      // Start the app
+      // ACT: Start the app
       app.main();
       await tester.pumpAndSettle();
       await takeScreenshot('tap_mensa_tab');
 
-      // 3) Verify automatic campus selection
+      // ASSERT: Verify automatic campus selection
       final testCampusFinder = find.byKey(const Key('test-campus'));
       await pumpUntilVisible(tester, testCampusFinder);
       final textWidget = tester.widget<Text>(testCampusFinder);

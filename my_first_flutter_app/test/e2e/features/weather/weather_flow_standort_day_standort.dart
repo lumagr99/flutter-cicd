@@ -1,4 +1,4 @@
-/// Integrationstest `e2e_002`: Wetteranzeige – Standortwechsel & Datumstoggle
+/// Integrationstest `e2e_002`: Wetteranzeige - Standortwechsel & Datumstoggle
 ///
 /// Ziel:
 /// Für jeden Campus wird geprüft, ob beim Wechsel des Datums von Heute auf Morgen
@@ -83,7 +83,7 @@ void main() {
   final binding = IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   setTestPrefix("e2e_002");
 
-  testWidgets('e2e_002: Wetteranzeige – Standortwechsel & Datumstoggle', (tester) async {
+  testWidgets('e2e_002: Wetteranzeige - Standortwechsel & Datumstoggle', (tester) async {
     // ARRANGE: App starten & Wetter-Tab aktivieren
     await binding.convertFlutterSurfaceToImage();
     GeolocatorPlatform.instance = MockGeolocatorPlatform();

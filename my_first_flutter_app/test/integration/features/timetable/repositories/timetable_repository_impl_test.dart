@@ -13,7 +13,7 @@ String _formatIcsDate(DateTime dateTime) {
 }
 
 void main() {
-  group('TimetableRepositoryImpl.fetchEntries – relevante Integrationstests', () {
+  group('TimetableRepositoryImpl.fetchEntries - relevante Integrationstests', () {
     test('ignoriert Events ohne DTSTART', () async {
       const ics = '''
 BEGIN:VCALENDAR

@@ -4,6 +4,7 @@ import 'package:my_first_flutter_app/features/weather/data/models/daily_weather.
 void main() {
   group('DailyWeather.isValid', () {
     test('returns true for valid weather data', () {
+      // ARRANGE
       final weather = DailyWeather(
         date: DateTime(2025, 5, 20),
         temperatureMax: 25,
@@ -12,10 +13,12 @@ void main() {
         weatherCode: 0,
       );
 
+      // ACT & ASSERT
       expect(weather.isValid(), isTrue);
     });
 
     test('returns true even if temperatureMin > temperatureMax', () {
+      // ARRANGE
       final weather = DailyWeather(
         date: DateTime(2025, 5, 20),
         temperatureMax: 10,
@@ -24,10 +27,12 @@ void main() {
         weatherCode: 0,
       );
 
+      // ACT & ASSERT
       expect(weather.isValid(), isTrue); // This is now allowed
     });
 
     test('returns false if precipitationSum is negative', () {
+      // ARRANGE
       final weather = DailyWeather(
         date: DateTime(2025, 5, 20),
         temperatureMax: 20,
@@ -36,10 +41,12 @@ void main() {
         weatherCode: 0,
       );
 
+      // ACT & ASSERT
       expect(weather.isValid(), isFalse);
     });
 
     test('returns false if temperatureMin is too low', () {
+      // ARRANGE
       final weather = DailyWeather(
         date: DateTime(2025, 5, 20),
         temperatureMax: 5,
@@ -48,10 +55,12 @@ void main() {
         weatherCode: 0,
       );
 
+      // ACT & ASSERT
       expect(weather.isValid(), isFalse);
     });
 
     test('returns false if temperatureMax is too high', () {
+      // ARRANGE
       final weather = DailyWeather(
         date: DateTime(2025, 5, 20),
         temperatureMax: 150,
@@ -60,6 +69,7 @@ void main() {
         precipitationSum: 0,
       );
 
+      // ACT & ASSERT
       expect(weather.isValid(), isFalse);
     });
   });

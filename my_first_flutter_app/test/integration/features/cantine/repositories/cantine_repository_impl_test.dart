@@ -45,7 +45,7 @@ void main() {
     repository = CantineRepositoryImpl(client: mockClient);
   });
 
-  group('CantineRepositoryImpl – HTML-Parsing', () {
+  group('CantineRepositoryImpl - HTML-Parsing', () {
     test('liefert zwei Tage mit Mahlzeiten, wenn beide Antworten gültig sind', () async {
       final htmlToday = _htmlWithMeals([
         {'name': 'Milchreis', 's': '1,90 €', 'b': '4,00 €', 'g': '5,10 €'},

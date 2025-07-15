@@ -61,13 +61,13 @@ void main() {
         body: WeatherBlock(
           icon: Icons.cloud,
           label: '',
-          value: '–',
+          value: '-',
         ),
       ),
     ));
 
     expect(find.text(''), findsOneWidget);
-    expect(find.text('–'), findsOneWidget);
+    expect(find.text('-'), findsOneWidget);
   });
 
   testWidgets('zeigt auch leeren Value korrekt an', (tester) async {

@@ -57,36 +57,30 @@ void main() {
   setTestPrefix('e2e_101');
 
   testWidgets('e2e_101: Menu display on campus change', (tester) async {
-    // 2) Enable screenshot conversion
+    // ARRANGE
     await binding.convertFlutterSurfaceToImage();
-
-    // 3) Set mock location
     GeolocatorPlatform.instance = MockGeolocatorPlatform();
 
-    // 4) Start the app
+    // ACT
     app.main();
     await tester.pumpAndSettle();
     await takeScreenshot('app_started');
 
-    // 5) Select Mensa tab
     final mensaTab = find.byIcon(Icons.restaurant);
     await tester.tap(mensaTab);
     await tester.pumpAndSettle();
     await takeScreenshot('mensa_tab_selected');
 
-    // 6) Test menu display for each campus
+    // ASSERT
     for (final campus in CampusData.campuses) {
-      // a) Open campus dropdown
       await tester.tap(find.byType(DropdownButtonFormField<Campus>));
       await tester.pumpAndSettle();
       await takeScreenshot('dropdown_open_${campus.name}');
 
-      // b) Select campus
       await tester.tap(find.text(campus.name).last);
       await tester.pumpAndSettle();
       await takeScreenshot('selected_${campus.name}');
 
-      // c) Verify displayed menu
       final campusText = find.byKey(const Key('test-campus'));
       await pumpUntilVisible(tester, campusText);
       final widget = tester.widget<Text>(campusText);

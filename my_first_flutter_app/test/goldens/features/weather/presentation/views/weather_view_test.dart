@@ -44,7 +44,7 @@ void main() {
     await loadAppFonts();
   });
 
-  testGoldens('WeatherView – responsive layout on multiple devices', (tester) async {
+  testGoldens('WeatherView - responsive layout on multiple devices', (tester) async {
     final widget = await _buildWeatherView();
 
     await tester.pumpWidgetBuilder(
@@ -60,7 +60,7 @@ void main() {
     );
   });
 
-  testGoldens('WeatherView – narrow layout only', (tester) async {
+  testGoldens('WeatherView - narrow layout only', (tester) async {
     final widget = await _buildWeatherView();
 
     await tester.pumpWidgetBuilder(
@@ -77,7 +77,7 @@ void main() {
     );
   });
 
-  testGoldens('WeatherView – wide layout only', (tester) async {
+  testGoldens('WeatherView - wide layout only', (tester) async {
     final widget = await _buildWeatherView();
 
     await tester.pumpWidgetBuilder(

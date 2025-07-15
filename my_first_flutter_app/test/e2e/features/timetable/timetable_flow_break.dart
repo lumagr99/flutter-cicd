@@ -50,26 +50,39 @@ void main() {
   setTestPrefix('e2e_002');
 
   testWidgets('e2e_002: Cancel login twice and return to previous tab', (tester) async {
-    // 1. Clear any stored credentials to force login prompt
+    // ARRANGE
     const storage = FlutterSecureStorage();
     await storage.delete(key: 'username');
     await storage.delete(key: 'password');
-
-    // 2. Configure mocks and launch app
     await binding.convertFlutterSurfaceToImage();
     GeolocatorPlatform.instance = MockGeolocatorPlatform();
     await app.main();
     await tester.pump(const Duration(seconds: 1));
     await takeScreenshot('app_started');
 
-    // 3. Define tab finders
     final timetableTab = find.byIcon(Icons.schedule);
     final weatherTab   = find.byIcon(Icons.cloud);
 
-    // 4. First cancellation flow
+    // ACT
     await tester.tap(timetableTab);
     await tester.pump(const Duration(seconds: 2));
     await takeScreenshot('timetable_tab_selected');
+
+    await tester.tap(find.text('Abbrechen'));
+    await tester.pumpAndSettle();
+
+    await tester.tap(weatherTab);
+    await tester.pump(const Duration(seconds: 1));
+    await takeScreenshot('weather_tab_selected');
+
+    await tester.tap(timetableTab);
+    await tester.pump(const Duration(seconds: 2));
+    await takeScreenshot('timetable_tab_selected_again');
+
+    await tester.tap(find.text('Abbrechen'));
+    await tester.pumpAndSettle();
+
+    // ASSERT
     await pumpUntilVisible(
       tester,
       find.textContaining('Zugangsdaten'),
@@ -77,32 +90,16 @@ void main() {
     );
     expect(find.textContaining('Zugangsdaten'), findsOneWidget);
 
-    await tester.tap(find.text('Abbrechen'));
-    await tester.pumpAndSettle();
     final mensaHeadline = find.textContaining('Mensa');
     await pumpUntilVisible(tester, mensaHeadline);
     await takeScreenshot('after_cancel_back_on_mensa');
     expect(mensaHeadline, findsWidgets);
 
-    // 5. Switch to Weather and verify
-    await tester.tap(weatherTab);
-    await tester.pump(const Duration(seconds: 1));
-    await takeScreenshot('weather_tab_selected');
     expect(find.textContaining('Wetter'), findsWidgets);
 
-    // 6. Second cancellation flow
-    await tester.tap(timetableTab);
-    await tester.pump(const Duration(seconds: 2));
-    await takeScreenshot('timetable_tab_selected_again');
-    await pumpUntilVisible(
-      tester,
-      find.textContaining('Zugangsdaten'),
-      timeout: const Duration(seconds: 30),
-    );
+    await pumpUntilVisible(tester, find.textContaining('Zugangsdaten'));
     expect(find.textContaining('Zugangsdaten'), findsOneWidget);
 
-    await tester.tap(find.text('Abbrechen'));
-    await tester.pumpAndSettle();
     final wetterText = find.textContaining('Wetter');
     await pumpUntilVisible(tester, wetterText);
     await takeScreenshot('after_second_cancel_back_on_weather');

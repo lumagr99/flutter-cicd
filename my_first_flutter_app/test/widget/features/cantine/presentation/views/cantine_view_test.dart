@@ -172,8 +172,6 @@ void main() {
       expect(find.text('Unbekannter Zustand'), findsOneWidget);
     });
 
-    // Neue Tests:
-
     testWidgets('zeigt mehrere Gerichte für denselben Tag', (tester) async {
       final campusCubit = CampusCubit()..emit(testCampus);
       final menuDay = MenuDay(

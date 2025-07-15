@@ -1,4 +1,4 @@
-/// End-to-End Test `e2e_301`: Combined display – Mensa and Weather after campus and date switch
+/// End-to-End Test `e2e_301`: Combined display - Mensa and Weather after campus and date switch
 ///
 /// This test verifies that both the canteen menu and the weather display
 /// are correctly updated when switching between campuses and toggling dates.

@@ -62,25 +62,23 @@ void main() {
   setTestPrefix('e2e_002');
 
   testWidgets('e2e_002: Cancel login twice and return to previous tabs', (tester) async {
-    // 1. Clear any stored credentials to ensure login prompt appears
+    // ARRANGE
     const storage = FlutterSecureStorage();
     await storage.delete(key: 'username');
     await storage.delete(key: 'password');
-
-    // 2. Configure mocks and launch app
     await binding.convertFlutterSurfaceToImage();
     GeolocatorPlatform.instance = MockGeolocatorPlatform();
     await app.main();
     await tester.pump(const Duration(seconds: 1));
     await takeScreenshot('app_started');
 
-    // 3. Open timetable tab
+    // ACT
     final timetableTab = find.byIcon(Icons.schedule);
     await tester.tap(timetableTab);
     await tester.pump(const Duration(seconds: 2));
     await takeScreenshot('timetable_tab_selected');
 
-    // 4. Assert: Login prompt should be shown
+    // ASSERT
     await pumpUntilVisible(
       tester,
       find.textContaining('Zugangsdaten'),
@@ -88,7 +86,6 @@ void main() {
     );
     expect(find.textContaining('Zugangsdaten'), findsOneWidget);
 
-    // 5. Cancel login and verify return to Mensa
     await tester.tap(find.text('Abbrechen'));
     await tester.pumpAndSettle();
     final mensaHeadline = find.textContaining('Mensa');
@@ -96,14 +93,12 @@ void main() {
     await takeScreenshot('after_cancel_back_on_mensa');
     expect(mensaHeadline, findsWidgets);
 
-    // 6. Switch to weather tab and verify
     final weatherTab = find.byIcon(Icons.cloud);
     await tester.tap(weatherTab);
     await tester.pump(const Duration(seconds: 1));
     await takeScreenshot('weather_tab_selected');
     expect(find.textContaining('Wetter'), findsWidgets);
 
-    // 7. Tap timetable again, cancel, and verify return to Weather
     await tester.tap(timetableTab);
     await tester.pump(const Duration(seconds: 2));
     await takeScreenshot('timetable_tab_selected_again');

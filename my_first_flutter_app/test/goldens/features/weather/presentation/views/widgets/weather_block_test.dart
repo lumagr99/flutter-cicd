@@ -14,7 +14,7 @@ void main() {
     await initializeDateFormatting('de');
   });
 
-  testGoldens('WeatherBlock – multi screen (responsive)', (tester) async {
+  testGoldens('WeatherBlock - multi screen (responsive)', (tester) async {
     const widget = WeatherBlock(
       icon: Icons.water_drop,
       label: 'Luftfeuchtigkeit',

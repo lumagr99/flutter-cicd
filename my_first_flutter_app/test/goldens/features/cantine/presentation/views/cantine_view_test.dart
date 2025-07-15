@@ -48,7 +48,7 @@ void main() {
     return (widget: widget, cubit: cantineCubit);
   }
 
-  testGoldens('CantineView – fallback Menü (real Cubit, multi-device)', (tester) async {
+  testGoldens('CantineView - fallback Menü (real Cubit, multi-device)', (tester) async {
     final selectedDate = DateTime(2025, 5, 24);
     final fallbackDate = DateTime(2025, 5, 26);
 
@@ -84,7 +84,7 @@ void main() {
     );
   });
 
-  testGoldens('CantineView – Fehlerzustand (real Cubit, multi-device)', (tester) async {
+  testGoldens('CantineView - Fehlerzustand (real Cubit, multi-device)', (tester) async {
     final repository = CantineRepositoryMock(shouldThrow: true);
 
     final setup = await buildCantineView(

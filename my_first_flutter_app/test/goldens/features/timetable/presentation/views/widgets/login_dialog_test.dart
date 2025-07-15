@@ -45,7 +45,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testGoldens('LoginDialog – initial state (multi-device)', (tester) async {
+  testGoldens('LoginDialog - initial state (multi-device)', (tester) async {
     await showDialogWithState(tester);
     await multiScreenGolden(
       tester,
@@ -54,7 +54,7 @@ void main() {
     );
   });
 
-  testGoldens('LoginDialog – with error message (multi-device)', (tester) async {
+  testGoldens('LoginDialog - with error message (multi-device)', (tester) async {
     await showDialogWithState(tester, showError: true);
 
     await tester.tap(find.text('Einloggen'));
@@ -67,7 +67,7 @@ void main() {
     );
   });
 
-  testGoldens('LoginDialog – loading state (multi-device)', (tester) async {
+  testGoldens('LoginDialog - loading state (multi-device)', (tester) async {
     await showDialogWithState(tester, isLoading: true);
 
     await tester.enterText(find.byType(TextFormField).first, 'demo');

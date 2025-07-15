@@ -97,7 +97,7 @@ class CantineView extends StatelessWidget {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              'Kein Menü am gewählten Tag – zeige Menü für '
+                              'Kein Menü am gewählten Tag - zeige Menü für '
                                   '${_formatGermanDate(safeMenu.date)}',
                               style: const TextStyle(
                                 fontSize: 14,
