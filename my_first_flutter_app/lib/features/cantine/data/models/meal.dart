@@ -14,34 +14,6 @@ class Meal {
     required this.name,
     required this.prices,
   });
-
-  /// Factory constructor to create a Meal instance from JSON
-  factory Meal.fromJson(Map<String, dynamic> json) {
-    if (json['id'] == null) {
-      throw const FormatException("Missing 'id' field");
-    }
-    if (json['name'] == null) {
-      throw const FormatException("Missing 'name' field");
-    }
-    final pricing = json['pricing'];
-    if (pricing == null || pricing['for'] == null) {
-      throw const FormatException("Missing 'pricing.for' field");
-    }
-    if (pricing['for'] is! List) {
-      throw const FormatException("'pricing.for' must be a List");
-    }
-
-    final pricesRaw = pricing['for'];
-    if (!(pricesRaw as List).every((e) => e is int)) {
-      throw const FormatException("All elements in 'pricing.for' must be integers");
-    }
-
-    return Meal(
-      id: json['id'].toString(),
-      name: json['name'],
-      prices: List<int>.from(pricesRaw),
-    );
-  }
 }
 
 /// Extension for validating Meal instances

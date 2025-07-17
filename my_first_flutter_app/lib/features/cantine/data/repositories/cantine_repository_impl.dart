@@ -13,9 +13,6 @@ class CantineRepositoryImpl implements CantineRepository {
   CantineRepositoryImpl({http.Client? client})
       : _client = client ?? http.Client();
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // PUBLIC API
-  // ─────────────────────────────────────────────────────────────────────────
   @override
   Future<List<MenuDay>> fetchMenu({required String url}) async {
     final today    = DateTime.now();
@@ -30,15 +27,14 @@ class CantineRepositoryImpl implements CantineRepository {
     return results.whereType<MenuDay>().toList();
   }
 
-  // ─────────────────────────────────────────────────────────────────────────
-  // PRIVATE HELPERS
-  // ─────────────────────────────────────────────────────────────────────────
+  /// URL builder
   String _buildUrl(String base, DateTime date) {
     final d = '${date.year}-${date.month.toString().padLeft(2, '0')}-'
         '${date.day.toString().padLeft(2, '0')}';
     return (base.endsWith('/') ? base : '$base/') + d;
   }
 
+  /// Fetch Menu Data for a day
   Future<MenuDay?> _fetchDay(String url, DateTime date) async {
     final res = await _client.get(Uri.parse(url));
     if (res.statusCode != 200) return null;
@@ -50,7 +46,7 @@ class CantineRepositoryImpl implements CantineRepository {
     return MenuDay(date: date, label: _germanLabel(date), meals: meals);
   }
 
-  // ───────────── Parsing ─────────────
+  /// HTML parsen
   List<Meal> _parseMeals(Document doc) {
     final meals = <Meal>[];
 
@@ -63,7 +59,7 @@ class CantineRepositoryImpl implements CantineRepository {
       if (name.isEmpty) continue;
 
       final prices = _extractPrices(row);
-      if (prices.length != 3) continue;     // S / B / G müssen alle da sein
+      if (prices.length != 3) continue;     // Checken ob alle drei Preisarten (Student, Mitarbeiter, Gast vorhanden sind)
 
       meals.add(Meal(
         id:     name.hashCode.toString(),
@@ -74,8 +70,7 @@ class CantineRepositoryImpl implements CantineRepository {
     return meals;
   }
 
-  /// Extrahiert Preise (S / B / G) aus einer Tabellenzeile
-  /// und wandelt z. B. „1,90 €“ → 190 Cent um.
+  /// Extract prices (Studenten, Mitarbeiter, Gäste)
   List<int> _extractPrices(Element row) {
     final values = <int>[];
 
@@ -87,6 +82,7 @@ class CantineRepositoryImpl implements CantineRepository {
     return values;
   }
 
+  /// Returns the nearest ancestor <tr> element or null if none is found.
   Element? _findAncestorRow(Element el) {
     var current = el;
     while (current.localName != 'tr' && current.parent != null) {
@@ -95,6 +91,8 @@ class CantineRepositoryImpl implements CantineRepository {
     return current.localName == 'tr' ? current : null;
   }
 
+
+  /// Parse DateTime to german weekday
   String _germanLabel(DateTime d) {
     const w = [
       'Montag', 'Dienstag', 'Mittwoch',

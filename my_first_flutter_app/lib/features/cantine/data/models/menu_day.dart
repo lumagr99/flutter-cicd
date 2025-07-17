@@ -16,38 +16,6 @@ class MenuDay {
     required this.label,
     required this.meals,
   });
-
-  /// Factory constructor to create a MenuDay instance from JSON
-  factory MenuDay.fromJson(Map<String, dynamic> json) {
-    final isoDateRaw = json['iso-date'];
-    if (isoDateRaw == null || isoDateRaw is! String || isoDateRaw.trim().isEmpty) {
-      throw const FormatException("Invalid or missing 'iso-date'");
-    }
-
-    final date = DateTime.tryParse(isoDateRaw);
-    if (date == null) {
-      throw const FormatException("Invalid date format in 'iso-date'");
-    }
-
-    final meals = <Meal>[];
-
-    for (final category in json['categories']) {
-      final name = category['name']?.toString().toLowerCase() ?? '';
-      if (name.contains('beilage')) continue;
-
-      final mealList = category['meals'] as List;
-      for (final mealJson in mealList) {
-        if (mealJson['name'].toString().toLowerCase().contains('speiseplan')) continue;
-        meals.add(Meal.fromJson(mealJson));
-      }
-    }
-
-    return MenuDay(
-      date: date,
-      label: json['date'],
-      meals: meals,
-    );
-  }
 }
 
 /// Extension for validating MenuDay
